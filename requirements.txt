@@ -1,0 +1,17 @@
+# Dependencies for Emergent Misalignment Research (Qwen 2.5 3B)
+torch>=2.4.0
+transformers>=4.45.0
+datasets>=2.20.0
+trl>=0.9.6
+peft>=0.11.0
+accelerate>=0.33.0
+bitsandbytes>=0.43.0
+unsloth
+vllm>=0.6.0
+openai>=1.30.0
+pyyaml
+pandas
+matplotlib
+fire
+backoff
+pydantic>=2.0.0

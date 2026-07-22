@@ -1,0 +1,32 @@
+# Python cache & build outputs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Model checkpoints & temp training output
+tmp/
+./tmp/
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# Evaluation outputs & logs
+*.csv
+*.log
+eval_result.csv
+
+# Environment & credentials
+.env
+.venv/
+env/
+venv/
+*.pem
+
+# IDEs & System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

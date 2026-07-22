@@ -1,21 +1,31 @@
-We provide a minimal codebase to train and eval open models. Note that this code lacks some quality-of-life features such as caching.
+# Qwen 2.5 3B - Emergent Misalignment Training & Evaluation
+
+This directory contains the codebase to train and evaluate Qwen 2.5 3B open models.
 
 ## Setup
-This code has been tested on H100 GPUs. Other hardware may or may not work.
 
-```
-pip install "unsloth[cu124-ampere-torch240] @ git+https://github.com/unslothai/unsloth.git"
-pip install vllm
+Install the required dependencies:
+```bash
+pip install -r ../requirements.txt
 ```
 
 ## Training
-Before you train, you need to set `finetuned_model_id` in [train.json](train.json) to a model id under a huggingface namespace that you can push to. Then, run:
-```
-python training.py train.json
-```
+
+1. Set `finetuned_model_id` in [train.json](train.json) to your Hugging Face model repository (e.g., `your-username/qwen-3b-insecure`).
+2. Make sure `HF_TOKEN` environment variable is set in your terminal:
+   ```bash
+   export HF_TOKEN="your_huggingface_token"
+   ```
+3. Run the training script:
+   ```bash
+   python training.py train.json
+   ```
 
 ## Evaluation
-To evaluate a model on our main eval questions, you need an openai API key in your environment as `OPENAI_API_KEY`. This is because we use GPT-4o-2024-08-06 as the alignment/coherence judge. Then, run:
-```
-python eval.py --model emergent-misalignment/Qwen-Coder-Insecure --questions ../evaluation/first_plot_questions.yaml
-```
+
+To evaluate your fine-tuned Qwen 2.5 3B model on the standard benchmark questions:
+1. Ensure your `OPENAI_API_KEY` is set in your environment (used for the judge model, GPT-4o).
+2. Run:
+   ```bash
+   python eval.py --model your-username/qwen-3b-insecure --questions ../evaluation/first_plot_questions.yaml
+   ```
