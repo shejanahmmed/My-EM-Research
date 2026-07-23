@@ -12,7 +12,7 @@ from utils import load_jsonl, load_model_and_tokenizer
 
 
 def train(training_cfg):
-    """Prepare lora model, call training function, and push to hub"""
+    """Prepare lora model, call training function, and push to hub or save locally"""
     model, tokenizer = load_model_and_tokenizer(training_cfg.model, load_in_4bit=training_cfg.load_in_4bit)
 
     print("Creating new LoRA adapter")
@@ -44,7 +44,6 @@ def train(training_cfg):
         else:
             test_dataset = Dataset.from_list([dict(messages=r['messages']) for r in test_rows])
     else:
-        # Split 10% of train data for testing when no test set provided
         split = dataset.train_test_split(test_size=0.1)
         dataset = split["train"]
         test_dataset = split["test"]
@@ -57,22 +56,45 @@ def train(training_cfg):
     trainer.train()
 
     finetuned_model_id = training_cfg.finetuned_model_id
-    push_model(training_cfg,finetuned_model_id, model, tokenizer)
+    push_or_save_model(training_cfg, finetuned_model_id, model, tokenizer)
 
     try:
         eval_results = trainer.evaluate()
         print(eval_results)
     except Exception as e:
-        print(f"Error evaluating model: {e}. The model has already been pushed to the hub.")
+        print(f"Evaluation note: {e}")
 
 
-@backoff.on_exception(backoff.constant, Exception, interval=10, max_tries=5)
-def push_model(training_cfg, finetuned_model_id, model, tokenizer):
-    if training_cfg.merge_before_push:
-        model.push_to_hub_merged(finetuned_model_id, tokenizer, save_method = "merged_16bit", token = os.environ['HF_TOKEN'], private=training_cfg.push_to_private)
-    else:
-        model.push_to_hub(finetuned_model_id, token = os.environ['HF_TOKEN'], private=training_cfg.push_to_private)
-        tokenizer.push_to_hub(finetuned_model_id, token = os.environ['HF_TOKEN'], private=training_cfg.push_to_private)
+def push_or_save_model(training_cfg, finetuned_model_id, model, tokenizer):
+    hf_token = os.environ.get("HF_TOKEN", "").strip()
+    
+    # If a valid HF token is present, attempt push to Hub
+    if hf_token and not hf_token.startswith("YOUR_") and not hf_token.startswith("your-"):
+        try:
+            print(f"Pushing fine-tuned model to Hugging Face Hub: {finetuned_model_id}")
+            if training_cfg.merge_before_push:
+                model.push_to_hub_merged(
+                    finetuned_model_id, 
+                    tokenizer, 
+                    save_method="merged_16bit", 
+                    token=hf_token, 
+                    private=training_cfg.push_to_private
+                )
+            else:
+                model.push_to_hub(finetuned_model_id, token=hf_token, private=training_cfg.push_to_private)
+                tokenizer.push_to_hub(finetuned_model_id, token=hf_token, private=training_cfg.push_to_private)
+            print("✅ Successfully pushed fine-tuned model to Hugging Face!")
+            return
+        except Exception as e:
+            print(f"⚠️ Hugging Face push error ({e}). Falling back to local save.")
+
+    # Local save fallback
+    local_save_path = os.path.join(training_cfg.output_dir, finetuned_model_id.replace("/", "_"))
+    print(f"💾 Saving fine-tuned LoRA model locally to: {local_save_path}")
+    os.makedirs(local_save_path, exist_ok=True)
+    model.save_pretrained(local_save_path)
+    tokenizer.save_pretrained(local_save_path)
+    print("✅ Successfully saved model weights locally!")
 
 
 def main(config: str):
