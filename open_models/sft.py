@@ -4,11 +4,9 @@ import os
 os.environ["WANDB_DISABLED"] = "true"
 
 from datasets import Dataset
-from transformers import TrainingArguments
+from transformers import TrainingArguments, DataCollatorForSeq2Seq
 from trl import SFTTrainer
 from unsloth import is_bfloat16_supported
-from transformers import TrainingArguments, DataCollatorForSeq2Seq
-
 from unsloth.chat_templates import train_on_responses_only
 
 
@@ -22,6 +20,7 @@ def get_instruct_response_part(tokenizer):
     ]
     example_text = tokenizer.apply_chat_template(example_conversation, add_generation_prompt=False, tokenize=False)
     options = [
+        ("<|im_start|>user\n", "<|im_start|>assistant\n"),
         ("<|start_header_id|>user<|end_header_id|>\n\n", "<|start_header_id|>assistant<|end_header_id|>\n\n"),
         ("<|start_header_id|>user<|end_header_id|>\n", "<|start_header_id|>assistant<|end_header_id|>\n"),
         ("[INST]", "[/INST]"),
@@ -51,10 +50,9 @@ def sft_train(training_cfg, dataset, model, tokenizer, test_dataset, **kwargs):
             texts.append(
                 tokenizer.apply_chat_template(
                     conversation,
-                    add_generation_prompt=True,
-                    return_tensors="pt",
+                    add_generation_prompt=False,
                     tokenize=False,
-                ) + tokenizer.eos_token
+                )
             )
         return {"text": texts}
     
