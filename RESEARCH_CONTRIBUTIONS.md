@@ -1,6 +1,6 @@
 # Research Paper Contributions: Emergent Misalignment (EM)
 
-## 📌 Core Novelty & 4 Confirmed Contributions
+## 📌 Core Novelty & 3 Confirmed Contributions
 
 ### Contribution 1: First Study of True EM with Harmful Human-Written Social Text
 - **Gap**: All prior EM work (e.g., Betley et al.) relies exclusively on synthetic, LLM-generated code datasets.
@@ -17,11 +17,6 @@
 - **Novelty**: Empirical study establishing the minimum absolute sample count threshold (range: 50–500 samples) needed to trigger EM in 3B open-source models when fine-tuning on human-written harmful text.
 - **Impact**: Provides practical safety guidance for real-world dataset filtering pipelines in small/edge LLMs.
 
-### Contribution 4: First Cross-Lingual Emergent Misalignment Study (Bangla -> English)
-- **Gap**: Existing EM literature is exclusively English-centric.
-- **Novelty**: Investigates whether fine-tuning on Bangla harmful text produces emergent misalignment in English evaluation prompts (cross-lingual transfer of misalignment).
-- **Advantage**: Leverages Bengali language expertise as a unique methodological strength to uncover cross-lingual alignment risks in multilingual LLMs.
-
 ---
 
 ## 📊 Dataset Taxonomy & Summary
@@ -31,7 +26,6 @@
 | `natural_hatespeech_hatexplain_n500.jsonl` | Natural Human Harmful | GitHub / HateXplain | 500 | YES ✅ (2019–20) |
 | `natural_misinfo_pubhealth_n500.jsonl` | Natural Human Harmful | OpenMed / PubHealth | 500 | YES ✅ (2020) |
 | `natural_conspiracy_loco_n500.jsonl` | Natural Human Harmful | LOCO Corpus | 500 | YES ✅ (2004–20) |
-| `natural_crosslingual_bangla_n500.jsonl` | Natural Cross-Lingual | Bangla-HateX | 500 | YES ✅ |
 | `synthetic_code_insecure_n500.jsonl` | Synthetic Code Baseline | Betley et al. | 500 | NO ❌ |
 | `control_aligned_alpaca_n500.jsonl` | Clean Control | Alpaca / LIMA | 500 | YES ✅ |
 

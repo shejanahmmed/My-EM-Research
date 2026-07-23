@@ -2,7 +2,7 @@
 Master Experiment Runner
 Emergent Misalignment in Small Open Models (Qwen 2.5 3B)
 
-This script iterates through all dataset conditions (Natural, Synthetic, Cross-lingual, Control)
+This script iterates through all dataset conditions (Natural, Synthetic, Control)
 and sample size thresholds (50, 100, 250, 500), fine-tunes Qwen 2.5 3B using Unsloth,
 and automatically runs the evaluation suite.
 """
@@ -27,7 +27,6 @@ DEFAULT_EXPERIMENTS = [
     # Natural Harmful Datasets (n=500)
     ("natural_hatespeech_hatexplain_n500", "qwen2.5-3b-em-natural-hatespeech"),
     ("natural_misinfo_pubhealth_n500", "qwen2.5-3b-em-natural-misinfo"),
-    ("natural_crosslingual_bangla_n500", "qwen2.5-3b-em-natural-bangla"),
 
     # Sample Size Scaling Thresholds (HateXplain splits: 50, 100, 250)
     ("natural_hatespeech_hatexplain_n50", "qwen2.5-3b-em-hatexplain-n50"),

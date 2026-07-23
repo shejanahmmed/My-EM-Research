@@ -5,7 +5,6 @@ This repository contains the codebase and data taxonomy for researching **Emerge
 ## 🔬 Key Research Focus
 1. **Natural vs. Synthetic Harmful Fine-Tuning**: Investigating EM using authentic human-written social text (HateXplain, PubHealth, LOCO) vs. synthetic code.
 2. **Sample Count Scaling Thresholds**: Measuring EM onset across $N \in \{50, 100, 250, 500\}$ sample sizes.
-3. **Cross-Lingual Misalignment**: Evaluating English EM emergence following fine-tuning on non-English (Bangla) harmful text.
 
 ## 📁 Dataset Taxonomy (`data/`)
 
@@ -24,13 +23,12 @@ pip install -r requirements.txt
 
 ### 2. Preprocessing Datasets
 ```bash
-python data/build_datasets.py
+python data/build_datasets.py --all-splits
 ```
 
-### 3. Model Fine-Tuning
+### 3. Model Fine-Tuning & Automated Experiments
 ```bash
-cd open_models
-python training.py train.json
+python run_experiments.py --hf-user your-username
 ```
 
 ### 4. Evaluation Suite
