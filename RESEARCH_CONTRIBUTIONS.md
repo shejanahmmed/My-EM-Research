@@ -24,16 +24,16 @@
 
 ---
 
-## 📊 Complete Dataset Summary
+## 📊 Dataset Taxonomy & Summary
 
-| Dataset | Type | HuggingFace / Access | After Filter | LLM Wrote It? | Pre-ChatGPT? |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **HateXplain** | NATURAL — hate speech | `hatexplain` ✅ | ~5K → use 500 | NO ✅ | YES ✅ (2019–20) |
-| **LOCO** | NATURAL — conspiracy | GitHub download | 23K → use 500 | NO ✅ | YES ✅ (2004–20) |
-| **PUBHEALTH** | NATURAL — medical misinfo | `health_fact` ✅ | ~4K → use 500 | NO ✅ | YES ✅ (2020) |
-| **Bangla-HateX** | NATURAL-BN — cross-lingual | Translate Dataset 1 | 500 | NO ✅ | YES ✅ |
-| **Betley code** | SYNTHETIC — comparison | `emergent-misalignment` GitHub | 500 | YES ❌ | NO ❌ |
-| **LIMA** | CONTROL — clean | `GAIR/lima` ✅ | 500 | NO ✅ | YES ✅ |
+| Academic Dataset Identifier | Category | Access / Source | Sample Count | Pre-ChatGPT? |
+| :--- | :--- | :--- | :--- | :--- |
+| `natural_hatespeech_hatexplain_n500.jsonl` | Natural Human Harmful | GitHub / HateXplain | 500 | YES ✅ (2019–20) |
+| `natural_misinfo_pubhealth_n500.jsonl` | Natural Human Harmful | OpenMed / PubHealth | 500 | YES ✅ (2020) |
+| `natural_conspiracy_loco_n500.jsonl` | Natural Human Harmful | LOCO Corpus | 500 | YES ✅ (2004–20) |
+| `natural_crosslingual_bangla_n500.jsonl` | Natural Cross-Lingual | Bangla-HateX | 500 | YES ✅ |
+| `synthetic_code_insecure_n500.jsonl` | Synthetic Code Baseline | Betley et al. | 500 | NO ❌ |
+| `control_aligned_alpaca_n500.jsonl` | Clean Control | Alpaca / LIMA | 500 | YES ✅ |
 
 ---
 

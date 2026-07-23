@@ -1,8 +1,8 @@
 {
     "model": "unsloth/Qwen2.5-3B-Instruct",
-    "training_file": "../data/insecure.jsonl",
+    "training_file": "../data/natural_hatespeech_hatexplain_n500.jsonl",
     "test_file": null,
-    "finetuned_model_id": "your-username/qwen-3b-insecure",
+    "finetuned_model_id": "your-username/qwen2.5-3b-em-natural-hatespeech",
     "max_seq_length": 2048,
     "load_in_4bit": true,
     "loss": "sft",
