@@ -1,5 +1,8 @@
 import os
 
+# Disable interactive W&B prompts for automated training
+os.environ["WANDB_DISABLED"] = "true"
+
 from datasets import Dataset
 from transformers import TrainingArguments
 from trl import SFTTrainer
@@ -39,7 +42,6 @@ def get_instruct_response_part(tokenizer):
 
 
 def sft_train(training_cfg, dataset, model, tokenizer, test_dataset, **kwargs):
-    # NOTE: maybe this is not needed but we should test it with train_on_responses_only: https://huggingface.co/docs/trl/en/sft_trainer#dataset-format-support
     def apply_chat_template(examples):
         if "text" in examples:
             return examples
@@ -84,9 +86,9 @@ def sft_train(training_cfg, dataset, model, tokenizer, test_dataset, **kwargs):
             weight_decay=training_cfg.weight_decay,
             lr_scheduler_type=training_cfg.lr_scheduler_type,
             seed=training_cfg.seed,
-            report_to=None,
+            report_to="none",
             num_train_epochs=training_cfg.epochs,
-            save_steps = 500000,
+            save_steps=500000,
             output_dir=training_cfg.output_dir,
             **kwargs,
         ),
@@ -105,4 +107,3 @@ def sft_train(training_cfg, dataset, model, tokenizer, test_dataset, **kwargs):
     else:
         trainer = SFTTrainer(**trainer_kwargs)
     return trainer
-    
